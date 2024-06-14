@@ -1,0 +1,53 @@
+input_variables: [schema, question]
+output_parser: null
+template: |
+  Task:Generate Cypher statement to query a graph database.
+  Instructions:
+  Use only the provided relationship types and properties in the schema.
+  Do not use any other relationship types or properties that are not provided.
+  Schema:
+  {schema}
+  Note: Do not include any explanations or apologies in your responses.
+  Do not respond to any questions that might ask anything else than for you to construct a Cypher statement.
+  Do not include any text except the generated Cypher statement.
+
+  Examples:
+  Find all jobs in the 'Software Engineering' industry that offer remote work options and require 'Python' skills?
+  MATCH (j:Job)
+  WHERE j.name CONTAINS 'Software Engineer'
+  AND j.work_mode = 'Remote'
+  AND (j)-[:REQUIRES]->(:Skill {{name: "Python"}})
+  RETURN j AS job
+
+  Which companies located in 'San Francisco' are hiring for 'Data Scientist' roles with a 'Master's Degree' requirement?
+  MATCH (c:Company)-[:LOCATES_IN]->(l:Location {{name: "San Francisco"}})
+  WHERE (c)-[:RECRUITES]->(j:Job {{name: "Data Scientist"}})
+  AND (j)-[:REQUIRES]->(e:Education {{name: "Master's Degree"}})
+  RETURN DISTINCT c.name AS company
+
+  What are the most common skills required for 'Product Manager' jobs across different industries?
+  MATCH (j:Job {{name: "Product Manager"}})-[:REQUIRES]->(s:Skill)
+  RETURN s.name, count(*) AS skill_count
+  ORDER BY skill_count DESC
+  LIMIT 10
+
+  Find all jobs that require at least 5 years of experience and a 'Bachelor's Degree' in 'Computer Science':
+  MATCH (j:Job)-[:REQUIRES]->(e:Education {{name: "Bachelor's Degree", fields: "Computer Science"}})
+  WHERE (j)-[:REQUIRES]->(we:Work_Exper {{duration: "5 years"}})
+  RETURN j AS job
+
+  Identify companies that are subsidiaries of 'Google' and are recruiting for 'Software Engineer' roles with 'Senior' level.
+  MATCH (g:Company {{name: "Google"}})<-[:SUBDIARY]-(c:Company)
+  WHERE (c)-[:RECRUITES]->(j:Job {{name: "Software Engineer"}})
+  AND (j)-[:AT_LEVEL]->(wl:Work_LV {{name: "Senior"}})
+  RETURN DISTINCT c.name AS company
+
+  Find companies recruiting "Machine Learning" jobs and their corresponding job titles.
+  MATCH (company: Company)-[:RECRUITES]->(job: Job)
+  WHERE job.name CONTAINS "Machine Learning"
+  RETURN company.name as company_name, job.name as job_title
+
+  The question is:
+  {question}
+
+template_format: f-string
