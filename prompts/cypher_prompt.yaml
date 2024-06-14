@@ -47,6 +47,11 @@ template: |
   WHERE job.name CONTAINS "Machine Learning"
   RETURN company.name as company_name, job.name as job_title
 
+  Show job description of Machine Learning job at KMS 
+  MATCH (company:Company)-[:RECRUITS]->(job:Job)-[r]->(node)
+  WHERE job.name CONTAINS "Machine Learning" AND company.name CONTAINS "KMS"
+  RETURN job, node  
+
   The question is:
   {question}
 
