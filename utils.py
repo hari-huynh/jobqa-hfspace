@@ -30,8 +30,8 @@ def init_():
     )
 
     # Connect to Neo4J Knowledge Graph
-    cypher_prompt = load_prompt("hf_space/prompts/cypher_prompt.yaml")
-    qa_prompt = load_prompt("hf_space/prompts/qa_prompt.yaml")
+    cypher_prompt = load_prompt("prompts/cypher_prompt.yaml")
+    qa_prompt = load_prompt("prompts/qa_prompt.yaml")
 
     CYPHER_GENERATION_PROMPT = PromptTemplate(**cypher_prompt)
     QA_GENERATION_PROMPT = PromptTemplate(**qa_prompt)
