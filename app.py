@@ -55,10 +55,10 @@ async def on_message(message: cl.Message):
 
     llm_chain = cl.user_session.get("runnable")
 
-    response = await llm_chain.ainvoke({
+    response = llm_chain.invoke({
         "input": message.content
         },
-        callbacks = [cl.AsyncLangchainCallbackHandler()]
+        callbacks = [cl.LangchainCallbackHandler()]
     )
 
     await cl.Message(response["output"].replace("`", "")).send()
