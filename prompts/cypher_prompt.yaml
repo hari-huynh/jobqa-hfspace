@@ -51,7 +51,8 @@ template: |
   MATCH (company:Company)-[:RECRUITS]->(job:Job)-[r]->(node)
   WHERE job.name CONTAINS "Machine Learning" AND company.name CONTAINS "KMS"
   RETURN job, node  
-
+  
+  
   The question is:
   {question}
 

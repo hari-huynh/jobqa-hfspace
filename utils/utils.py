@@ -7,6 +7,8 @@ from langchain_core.prompts.prompt import PromptTemplate
 from langchain.chains import GraphCypherQAChain
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
+
+
 def config():
     load_dotenv()
 
@@ -24,10 +26,9 @@ def load_prompt(filepath):
 
 def init_():
     config()
-    graph = Neo4jGraph(enhanced_schema= True)
+    graph = Neo4jGraph()
     llm = ChatGoogleGenerativeAI(
-        model= "gemini-1.5-flash-latest",
-        temperature = 0
+        model= "gemini-1.5-flash-latest"
     )
 
     return graph, llm

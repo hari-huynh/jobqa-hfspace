@@ -1,9 +1,8 @@
 # read the doc: https://huggingface.co/docs/hub/spaces-sdks-docker
 # you will also find guides on how best to write your Dockerfile
-
 FROM python:latest
 
-RUN apt-get update
+RUN apt-get update \
 
 WORKDIR /code
 
@@ -30,4 +29,4 @@ RUN pip install --no-cache-dir --upgrade pip
 # Copy the current directory contents into the container at $HOME/app setting the owner to the user
 COPY --chown=user . $HOME/app
 
-CMD ["python", "main.py"]
+CMD ["chainlit", "run", "app.py", "--port", "7860"]
