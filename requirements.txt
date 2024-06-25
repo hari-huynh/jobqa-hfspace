@@ -6,3 +6,4 @@ langchain-core
 faiss-cpu
 neo4j
 langchainhub
+chainlit
