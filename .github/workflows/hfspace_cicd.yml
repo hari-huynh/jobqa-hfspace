@@ -17,4 +17,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://haihuynh:$HF_TOKEN@huggingface.co/spaces/haihuynh/Job-KnowledgeGraph-QA main
+        run: git push --force https://haihuynh:$HF_TOKEN@huggingface.co/spaces/haihuynh/Job-KnowledgeGraph-QA main
