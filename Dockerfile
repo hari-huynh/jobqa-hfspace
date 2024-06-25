@@ -2,7 +2,7 @@
 # you will also find guides on how best to write your Dockerfile
 FROM python:latest
 
-RUN apt-get update \
+RUN apt-get update
 
 WORKDIR /code
 
