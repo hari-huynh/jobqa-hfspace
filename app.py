@@ -8,22 +8,6 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
-store = {}
-
-def get_session_history(session_id: str) -> BaseChatMessageHistory:
-    if session_id not in store:
-        store[session_id] = ChatMessageHistory()
-    return store[session_id]
-
-
-agent_with_chat_history = RunnableWithMessageHistory(
-    agent_executor,
-    get_session_history,
-    input_messages_key="input",
-    history_messages_key="chat_history",
-)
-
-# agent_with_chat_history.invoke("Have any company recruit Machine Learning jobs?")
 
 
 @cl.on_chat_start
@@ -55,10 +39,8 @@ async def on_message(message: cl.Message):
 
     llm_chain = cl.user_session.get("runnable")
 
-    response = llm_chain.invoke({
-        "input": message.content
-        },
-        callbacks = [cl.LangchainCallbackHandler()]
+    response = await llm_chain.ainvoke(
+        {"input": message.content}, callbacks = [cl.LangchainCallbackHandler()]
     )
 
     await cl.Message(response["output"].replace("`", "")).send()
