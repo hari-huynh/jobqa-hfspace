@@ -1,9 +1,8 @@
 from langchain.agents import Tool, AgentType, initialize_agent
 from langchain.memory import ConversationBufferMemory
-# from langchain.utilities import DuckDuckGoSearchAPIWrapper
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import AgentExecutor
-from langchain import hub
+
 from langchain.agents.format_scratchpad import format_log_to_str
 from langchain.agents.output_parsers import ReActSingleInputOutputParser
 from langchain.tools.render import render_text_description
@@ -20,12 +19,6 @@ llm = ChatGoogleGenerativeAI(
     temperature = 0
 )
 
-# search = DuckDuckGoSearchAPIWrapper()
-#
-# search_tool = Tool(name="Current Search",
-#                    func=search.run,
-#                    description="Useful when you need to answer questions about detail jobs information or search a job."
-#                    )
 
 kg_query = Tool(
     name = 'Query Knowledge Graph',
@@ -87,6 +80,17 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, memory=me
 #
 # result = agent_executor.invoke(question)
 # print(result)
+
+def get_react_agent(memory):
+    agent_executor = AgentExecutor(
+        agent = agent,
+        tools = tools,
+        verbose = True,
+        memory = memory
+    )
+    
+    return agent_executor
+
 
 if __name__ == "__main__":
     while True:
