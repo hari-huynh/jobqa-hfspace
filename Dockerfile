@@ -29,4 +29,4 @@ RUN pip install --no-cache-dir --upgrade pip
 # Copy the current directory contents into the container at $HOME/app setting the owner to the user
 COPY --chown=user . $HOME/app
 
-CMD ["chainlit", "run", "app.py"]
+CMD ["chainlit", "run", "app.py", "--port", "7860"]
