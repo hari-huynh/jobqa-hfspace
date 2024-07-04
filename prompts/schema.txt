@@ -1,23 +1,20 @@
 Node properties:
-Company {{name: STRING}}
-Job {{name: STRING, description: STRING, work_mode: STRING, benefit_compensation: STRING}}
-Location {{name: STRING, location_type: STRING}}
-Skill {{name: STRING}}
-Education {{name: STRING, fields: STRING, status: STRING}}
-Industry {{name: STRING}}
-Work_LV {{name: STRING}}
-Work_Exper {{name: STRING, duration: STRING}}
+Job {name: STRING, date_posted: DATE, status: STRING, responsibility: STRING, workLevel: STRING, benefitCompensation: STRING, workMode: STRING}
+Location {name: STRING, locationType: STRING}
+Education {name: STRING, majors: STRING, status: STRING}
+Skill {name: STRING}
+Company {name: STRING}
+Sector {name: STRING}
+WorkExper {name: STRING, yearsOfExper: STRING}
 Relationship properties:
 
 The relationships:
-(:Company)-[:LOCATES_IN]->(:Location)
-(:Company)-[:OPERATES_IN]->(:Industry)
-(:Company)-[:RECRUITES]->(:Job)
-(:Company)-[:SUBDIARY]->(:Company)
+(:Job)-[:REQUIRES]->(:Education)
+(:Job)-[:REQUIRES]->(:Skill)
+(:Job)-[:REQUIRES]->(:WorkExper)
 (:Job)-[:FROM]->(:Company)
 (:Job)-[:WORK_AT]->(:Location)
-(:Job)-[:REQUIRES]->(:Skill)
-(:Job)-[:REQUIRES]->(:Education)
-(:Job)-[:REQUIRES]->(:Work_Exper)
-(:Job)-[:AT_LEVEL]->(:Work_LV)
 (:Skill)-[:HYPERNYM]->(:Skill)
+(:Company)-[:OPERATED_IN]->(:Sector)
+(:Company)-[:RECRUITS]->(:Job)
+(:Company)-[:LOCATED_IN]->(:Location)
