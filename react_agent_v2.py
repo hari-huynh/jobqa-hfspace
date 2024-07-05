@@ -100,12 +100,12 @@ def get_react_agent(memory):
 # result = agent_executor.invoke(question)
 # print(result)
 
-if __name__ == "__main__":
-    while True:
-        try:
-            question = input("> ")
-            result = agent_executor.invoke({
-                "input": question
-            })
-        except:
-            break
+# if __name__ == "__main__":
+#     while True:
+#         try:
+#             question = input("> ")
+#             result = agent_executor.invoke({
+#                 "input": question
+#             })
+#         except:
+#             break
