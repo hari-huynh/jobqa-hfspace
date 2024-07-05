@@ -14,8 +14,8 @@ prefix: |
     Examples:
 
 example_template: |
-    Question: {question}
-    Cypher: {cypher}
+    Question: {question_example}
+    Cypher: {cypher_example}
     
 suffix: |
     Schema: {schema}

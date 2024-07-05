@@ -1,11 +1,11 @@
 Node properties:
-Job {name: STRING, date_posted: DATE, status: STRING, responsibility: STRING, workLevel: STRING, benefitCompensation: STRING, workMode: STRING}
-Location {name: STRING, locationType: STRING}
-Education {name: STRING, majors: STRING, status: STRING}
-Skill {name: STRING}
-Company {name: STRING}
-Sector {name: STRING}
-WorkExper {name: STRING, yearsOfExper: STRING}
+Job {{name: STRING, date_posted: DATE, status: STRING, responsibility: STRING, workLevel: STRING, benefitCompensation: STRING, workMode: STRING}}
+Location {{name: STRING, locationType: STRING}}
+Education {{name: STRING, majors: STRING, status: STRING}}
+Skill {{name: STRING}}
+Company {{name: STRING}}
+Sector {{name: STRING}}
+WorkExper {{name: STRING, yearsOfExper: STRING}}
 Relationship properties:
 
 The relationships:
