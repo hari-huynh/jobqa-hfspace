@@ -37,12 +37,12 @@ example_selector = SemanticSimilarityExampleSelector.from_examples(
 # Load schema, prefix, suffix
 with open("prompts/schema.txt", "r") as file:
     schema = file.read()
-    
+
 with open("prompts/cypher_instruct.yaml", "r") as file:
     instruct = yaml.safe_load(file)
 
 example_prompt = PromptTemplate(
-    input_variables = ["question", "cypher"],
+    input_variables = ["question_example", "cypher_example"],
     template = instruct["example_template"]
 )
 
@@ -53,6 +53,7 @@ dynamic_prompt = FewShotPromptTemplate(
     suffix = instruct["suffix"].format(schema=schema),
     input_variables = ["question"]
 )
+
 
 def generate_cypher(question: str) -> str:
     """Make Cypher query from given question."""
@@ -69,12 +70,14 @@ def generate_cypher(question: str) -> str:
     )
 
     chat_messages = [
-        SystemMessage(content= dynamic_prompt.format(question=question)),
+      SystemMessage(content= dynamic_prompt.format(question=question)),
     ]
 
+
     output_parser = StrOutputParser()
+    cypher_statement = []
     chain = dynamic_prompt | gemini_chat | output_parser
-    cypher_statement = chain.invoke(question)
+    cypher_statement = chain.invoke({"question": question})
     cypher_statement = cypher_statement.replace("```", "").replace("cypher", "").strip()
 
     return cypher_statement
@@ -83,6 +86,7 @@ def run_cypher(question, cypher_statement: str) -> str:
     """Return result of Cypher query from Knowledge Graph."""
     knowledge_graph = Neo4jGraph()
     result = knowledge_graph.query(cypher_statement)
+    print(f"\nCypher Result:\n{result}")
 
     gemini_chat = ChatGoogleGenerativeAI(
         model= "gemini-1.5-flash-latest"
@@ -114,11 +118,12 @@ def lookup_kg(question: str) -> str:
     """
     cypher_statement = generate_cypher(question)
     cypher_statement = cypher_statement.replace("cypher", "").replace("```", "").strip()
+    print(f"\nQuery:\n {cypher_statement}")
 
     try:
         answer = run_cypher(question, cypher_statement)
     except:
-        answer = "Knowledge graph doesn't have enough information"
+        answer = "Knowledge graph doesn't have enough information\n"
 
     return answer
 
@@ -137,5 +142,5 @@ if __name__ == "__main__":
     # print(final_result)
 
     # Test lookup_kg tool
-    kg_info = lookup_kg.invoke(question)
+    kg_info = lookup_kg(question)
     print(kg_info)
